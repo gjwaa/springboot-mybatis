@@ -4,6 +4,8 @@ spring:
     password: 123guan!@#
     url: jdbc:mysql://rds-ggg-vpc.mysql.rds.aliyuncs.com/mydemo?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
 mybatis:
   type-aliases-package: com.gjw.bean
   mapper-locations: classpath:mybatis/mapper/*.xml
