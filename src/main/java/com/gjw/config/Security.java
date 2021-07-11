@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
@@ -16,8 +17,18 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers("/level2/**").hasRole("vip2")
                 .antMatchers("/level3/**").hasRole("vip3");
 
-        http.formLogin();
-        http.logout();
+        //defaultParam username,password
+        http.formLogin().loginPage("/toLogin").loginProcessingUrl("/login");
+//        http.csrf().disable();
+//        http.logout().logoutSuccessUrl("/");
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+        http.rememberMe().rememberMeParameter("remember");
+
     }
 
     @Override
